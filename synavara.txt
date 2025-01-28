@@ -1,1 +1,18 @@
-
+https://meet.google.com/jpu-gtzi-xfm
+andmebaas - AB
+andmebaaside haldus - 
+andmebaasi haldussüsteem ABHS  -система управления БД -СУБД (SQL Server /XAMPP /Oracle / MS Access)
+andmed -
+tabel
+veerg = väli
+rida = kirje
+päring (query) -
+loo
+laadi alla
+laadi üles
+rakendus 
+varundamine -
+taastamine -
+päringukeel -
+relatsiooni andmebaas -
+seos -
