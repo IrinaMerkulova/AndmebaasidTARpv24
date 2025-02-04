@@ -2,6 +2,7 @@
 Create database MerkulovaBaas;
 
 use MerkulovaBaas;
+--identity (1,1) - поле заполняется без команды Insert Into
 CREATE TABLE opilane(
 opilaneId int primary key identity(1,1),
 eesnimi varchar(25) not null,
@@ -41,5 +42,15 @@ select * from opilane;
 --andmete uuendamine
 UPDATE opilane SET aadress='Tartu'
 WHERE opilaneId=3
+--------------------------------Protseduurid---------------------------------------------
+--Õpilase andemte lisamine tabelisse
+--Õpilane kustutamine tabelist id järgi
+--Otsing nimi järgi
+--andmete uuendamine, näiteks ... stip muudetakse 
+
+
+
+
+
 
 
