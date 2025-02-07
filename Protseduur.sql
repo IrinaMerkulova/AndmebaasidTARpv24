@@ -1,7 +1,8 @@
 (localdb)\mssqllocaldb
 --SQL  salvestatud protseduur - funktsioon, 
   mis käivitab serveris mitu SQL tegevust järjest.
---https://meet.google.com/vkf-bkjh-djs
+  
+--https://meet.google.com/ppm-hphr-ort
   Kasutame SQL Server
 Create database protseduurTARpv24;
 
@@ -64,6 +65,94 @@ WHERE linnNimi LIKE @taht + '%';
 END;
 --kutse
 EXEC linnaOtsing T;
+use protseduurTARpv24;
+--https://meet.google.com/ppm-hphr-ort
+CREATE TABLE linn (...
+SELECT * FROM linn;
+-- uue veeru lisamine
+ALTER TABLE linn ADD test int;
+--veeru kustutamine
+ALTER TABLE linn DROP COLUMN test;
+
+CREATE PROCEDURE veeruLisaKustuta
+@valik varchar(20),
+@veerunimi varchar(20),
+@tyyp varchar(20) =null
+
+AS
+BEGIN
+Declare @sqltegevus as varchar(max)
+set @sqltegevus=case
+when @valik='add' then concat('ALTER TABLE linn ADD ',   @veerunimi, ' ', @tyyp)
+when @valik='drop' then concat('ALTER TABLE linn DROP COLUMN ',   @veerunimi)
+END;
+print @sqltegevus;
+BEGIN
+EXEC (@sqltegevus);
+END
+END;
+
+
+--kutse
+EXEC veeruLisaKustuta @valik='add', @veerunimi='test3', @tyyp='int';
+SELECT * FROM linn;
+
+EXEC veeruLisaKustuta @valik='drop', @veerunimi='test3';
+SELECT * FROM linn;
+
+CREATE PROCEDURE veeruLisaKustutaTabelis
+@valik varchar(20),
+@tabelinimi varchar(20),
+@veerunimi varchar(20),
+@tyyp varchar(20) =null
+
+AS
+BEGIN
+Declare @sqltegevus as varchar(max)
+set @sqltegevus=case
+when @valik='add' then concat('ALTER TABLE ', @tabelinimi, ' ADD ',   @veerunimi, ' ', @tyyp)
+when @valik='drop' then concat('ALTER TABLE ', @tabelinimi, ' DROP COLUMN ',   @veerunimi)
+END;
+print @sqltegevus;
+BEGIN
+EXEC (@sqltegevus);
+END
+END;
+--kutse
+EXEC veeruLisaKustutaTabelis @valik='add', @tabelinimi='linn', @veerunimi='test3', @tyyp='int';
+SELECT * FROM linn;
+
+EXEC veeruLisaKustutaTabelis @valik='drop', @tabelinimi='linn', @veerunimi='test3';
+SELECT * FROM linn;
+
+--protseduur tingimusega
+Create procedure rahvaHinnang
+@piir int
+
+AS
+BEGIN
+SELECT linnNimi, rahvaArv, IIF(rahvaArv<@piir, 'väike linn', 'suur linn') as Hinnang
+FROM linn;
+
+
+END;
+
+DROP procedure rahvaHinnang;
+
+EXEC rahvaHinnang 2000;
+--Agregaat funktsioonid: SUM(), AVG(), MIN(), MAX(), COUNT()
+
+CREATE PROCEDURE kokkuRahvaarv
+
+AS
+BEGIN
+SELECT SUM(rahvaArv) AS 'kokku rahvaArv', AVG(rahvaArv) AS 'keskmine rahvaArv', count(*) AS 'linnade arv'
+FROM linn;
+END;
+
+EXEC kokkuRahvaarv;
+
+
 
 ----------------------------------------------------------------------------------
 Kasutame XAMPP / localhost
